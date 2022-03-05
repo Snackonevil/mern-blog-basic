@@ -11,8 +11,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
-db.once("open", () => {
-    app.listen(PORT, () => {
-        console.log(`Server started on port ${PORT}`.yellow);
-    });
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`.yellow);
 });
+// db.once("open", () => {
+// });
