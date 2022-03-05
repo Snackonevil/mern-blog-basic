@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const commentSchema = require("./Comment");
 
 function formatDate(date) {
     let formattedDate = new Date(date);
@@ -22,6 +23,7 @@ const postSchema = new Schema(
             type: String,
             required: true,
         },
+        comments: [commentSchema],
     },
     {
         toJSON: {
