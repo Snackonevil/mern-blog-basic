@@ -1,5 +1,10 @@
 const { Schema, model } = require("mongoose");
 
+function formatDate(date) {
+    let formattedDate = new Date(date);
+    return formattedDate.toDateString();
+}
+
 const postSchema = new Schema(
     {
         postText: {
