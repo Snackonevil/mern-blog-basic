@@ -1,7 +1,16 @@
 const { Schema, model } = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new Schema(
     {
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
+        },
         username: {
             type: String,
             required: [true, "Username is required"],
@@ -17,18 +26,21 @@ const userSchema = new Schema(
                 "Please fill in a valid email address",
             ],
         },
-        thoughts: [
+        password: {
+            type: String,
+        },
+        posts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: "Thought",
+                ref: "Post",
             },
         ],
-        friends: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "User",
-            },
-        ],
+        // friends: [
+        //     {
+        //         type: Schema.Types.ObjectId,
+        //         ref: "User",
+        //     },
+        // ],
     },
     {
         toJSON: {
@@ -37,5 +49,7 @@ const userSchema = new Schema(
         id: false,
     }
 );
+
+userSchema.plugin(passportLocalMongoose);
 
 module.exports = model("User", userSchema);

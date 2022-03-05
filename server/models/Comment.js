@@ -12,10 +12,12 @@ const commentSchema = new Schema({
     },
     commentBody: {
         type: String,
+        required: true,
+        maxLength: 280,
     },
     username: {
         type: String,
-        require: true,
+        required: true,
     },
     createdAt: {
         type: Date,
