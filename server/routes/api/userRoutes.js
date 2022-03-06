@@ -18,7 +18,7 @@ router
 
 router
     // route: /api/users/:userId
-    .route("/:userId")
+    .route("/:id")
     // GET: user by id
     .get(getUserById)
     // PUT: update user
