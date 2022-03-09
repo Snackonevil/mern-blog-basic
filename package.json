@@ -2,15 +2,15 @@
     "name": "mern-blog",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
         "start": "node server/server.js",
         "server": "nodemon server/server.js",
         "client": "cd client && npm start"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Kevin Lacson",
+    "license": "MIT",
     "dependencies": {
         "bcrypt": "^5.0.1",
         "colors": "^1.4.0",
