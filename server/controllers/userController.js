@@ -46,11 +46,17 @@ module.exports = {
     },
     deleteUser: async (req, res) => {
         try {
-            const user = await User.findOneAndDelete({ _id: req.params.id });
-            !user
-                ? res.status(404).json({ message: "User not found" })
-                : res.status(200).json({ message: "User deleted" });
-            // Will need to delete associated posts
+            const user = await User.findOneAndDelete({
+                _id: req.params.userId,
+            });
+            if (!user) {
+                res.status(404).json({ message: "User not found" });
+            } else {
+                await Post.deleteMany({ _id: { $in: user.posts } });
+                res.status(200).json({
+                    message: "User and user's posts have been deleted",
+                });
+            }
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
