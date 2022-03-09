@@ -1,4 +1,4 @@
-const Post = require("../models/Post");
+const { Post, User } = require("../models");
 
 module.exports = {
     getPosts: async (req, res) => {
@@ -23,7 +23,11 @@ module.exports = {
     },
     createPost: async (req, res) => {
         try {
-            await Post.create(req.body);
+            const newPost = await Post.create(req.body);
+            await User.findOneAndUpdate(
+                { username: req.body.username },
+                { $set: { posts: newPost._id } }
+            );
             res.status(200).json({ message: "Post created" });
         } catch (err) {
             console.log(err);
@@ -46,8 +50,16 @@ module.exports = {
     },
     deletePost: async (req, res) => {
         try {
-            await Post.findOneAndDelete({ _id: req.params.id });
-            res.status(200).json({ message: "Post Deleted" });
+            const post = await Post.findOneAndDelete({ _id: req.params.id });
+            if (!post) {
+                res.status(400).json({ message: "Post not found" });
+            } else {
+                await User.findOneAndUpdate(
+                    { username: post.username },
+                    { $pull: { posts: post._id } }
+                );
+                res.status(200).json({ message: "Post Deleted" });
+            }
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
